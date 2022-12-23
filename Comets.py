@@ -49,6 +49,7 @@ class Player(object):
     def draw(self):
         #Win.blit(self.img, [self.x, self.y, self.w, self.h])
         Win.blit(self.rotatedSurf, self.rotatedRect)
+        pygame.draw.rect(Win, (0, 0, 255), self.rotatedRect, 2)
 
     def TurnLeft(self):
         self.angle += 3
@@ -140,6 +141,7 @@ class Asteroid(object):
 
     def draw(self):
         Win.blit(self.image, (self.x, self.y))
+        pygame.draw.rect(Win, (0, 0, 255),  pygame.Rect(self.x, self.y, self.w, self.h), 2)
 
 def redrawGameWindow():
     Win.blit(Background, (0,0))
@@ -189,9 +191,9 @@ while run :
             a.x += a.xv
             a.y += a.yv
 
-            if (Player.x >= a.x and Player.x <= a.x + a.w) or (Player.x + Player.w >= a.x and Player.x + Player.w <= a.x + a.w):
-               if (Player.y >= a.y and Player.y <= a.y + a.h) or (Player.y + Player.h >= a.y and Player.y + Player.h >= a.y):
-                Life -= 0
+            if (Player.x - (Player.w)/2 >= a.x and Player.x - (Player.w)/2 <= a.x + a.w) or (Player.x + (Player.w)/2 >= a.x and Player.x + (Player.w)/2 <= a.x + a.w):
+               if (Player.y - (Player.h)/2 >= a.y and Player.y - (Player.h)/2 <= a.y + a.h) or (Player.y + (Player.h)/2 >= a.y and Player.y + (Player.h)/2 <= a.y + a.h):
+                Life -= 1
                 Asteroids.pop(Asteroids.index(a))
                 break
             #Verificação se o Asteroide acerta no jogador
@@ -243,7 +245,7 @@ while run :
                         #Quando o jogador destroi ou aconte um "pop" um cometa tres ou cinco de tamanhos inferiores aparecem, "append"
 
 
-        if Life == 0:
+        if Life <= 0:
             GameOver = True
 
         keys = pygame.key.get_pressed()
