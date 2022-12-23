@@ -177,8 +177,6 @@ while run :
             Asteroids.append(Asteroid(ran))
 
         Player.CheckLocation()
-        #PlayerBullets.CheckLocation
-
 
         for b in PlayerBullets:
             b.move()
@@ -240,7 +238,7 @@ while run :
                             Asteroids.append(na5)
                         else:
                             Score += 30
-                        #Quando o jogador destroi ou aconte um "pop" um cometa tres ou cinco de tamanhos inferiores aparecem, "append"
+                        #Quando o jogador destroi um cometa tres ou cinco de tamanhos inferiores aparecem, "append"
 
 
         if Life <= 0:
