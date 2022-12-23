@@ -49,7 +49,6 @@ class Player(object):
     def draw(self):
         #Win.blit(self.img, [self.x, self.y, self.w, self.h])
         Win.blit(self.rotatedSurf, self.rotatedRect)
-        pygame.draw.rect(Win, (0, 0, 255), self.rotatedRect, 2)
 
     def TurnLeft(self):
         self.angle += 3
@@ -71,7 +70,7 @@ class Player(object):
 
     def MoveForward(self):
         self.x += self.cosine * 6
-        self.y += self.sine * 6
+        self.y += self.sine * -6
         self.rotatedSurf = pygame.transform.rotate(self.img, self.angle)
         self.rotatedRect = self.rotatedSurf.get_rect()
         self.rotatedRect.center = (self.x, self.y)
@@ -141,7 +140,6 @@ class Asteroid(object):
 
     def draw(self):
         Win.blit(self.image, (self.x, self.y))
-        pygame.draw.rect(Win, (0, 0, 255),  pygame.Rect(self.x, self.y, self.w, self.h), 2)
 
 def redrawGameWindow():
     Win.blit(Background, (0,0))
@@ -178,7 +176,7 @@ while run :
             ran = random.choice([1,1,1,2,2,3])
             Asteroids.append(Asteroid(ran))
 
-        Player.CheckLocation
+        Player.CheckLocation()
         #PlayerBullets.CheckLocation
 
 
@@ -254,7 +252,7 @@ while run :
         if keys[pygame. K_RIGHT]:
             Player.TurnRight()
         if keys[pygame.K_UP]:
-            Player.MoveForward
+            Player.MoveForward()
 
 
     for event in pygame.event.get():
