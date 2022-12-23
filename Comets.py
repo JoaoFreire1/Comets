@@ -10,7 +10,7 @@ sh = 600
 #Tamanho do ecrã em pixeis
 
 Background = pygame.image.load('Projetc02_Images/Galaxy_Background.jpg')
-Player_Spaceship = pygame.image.load('Projetc02_Images/Player-Spaceship.png')
+Player_Spaceship = pygame.image.load('Projetc02_Images/Player_Spaceship.png')
 PowerUp = pygame.image.load('Projetc02_Images/PowerUp.png')
 AsteroidL = pygame.image.load('Projetc02_Images/AsteroidL.png')
 AsteroidM = pygame.image.load('Projetc02_Images/AsteroidM.png')
@@ -33,6 +33,7 @@ Score = 0
 
 class Player(object):
     def __init__(self):
+        self.img = Player_Spaceship
         self.w = self.img.get_width()
         self.h = self.img.get_height()
         self.x = sw//2
@@ -41,11 +42,11 @@ class Player(object):
         self.rotatedSurf = pygame.transform.rotate(self.img, self.angle)
         self.rotatedRect = self.rotatedSurf.get_rect()
         self.rotatedRect.center = (self.x, self.y)
-        self.cosine = math.cos(math.radian(self.angle + 90))
+        self.cosine = math.cos(math.radians(self.angle + 90))
         self.sine = math.sin(math.radians(self.angle + 90))
-        self.head = (self.x + self.cosin * self.w//2, self.y - self.sine *self.h//2)
+        self.head = (self.x + self.cosine * self.w//2, self.y - self.sine *self.h//2)
 
-    def draw(self, Win):
+    def draw(self):
         #Win.blit(self.img, [self.x, self.y, self.w, self.h])
         Win.blit(self.rotatedSurf, self.rotatedRect)
 
@@ -104,7 +105,7 @@ class Bullets(object):
         self.x += self.xv
         self.y -= self.yv
 
-    def draw(self, Win):
+    def draw(self):
         pygame.draw.rect(Win, (255,255,255), [self.x, self.y, self.w, self.h])
 
     def checkOffScreen(self):
@@ -124,7 +125,7 @@ class Asteroid(object):
             self.image = AsteroidL
         self.w = 50 * rank
         self.h = 50 * rank
-        self.ranPoint = random.choice([(random.randrange(0, sw-self.w), random.choice([-1*self.h - 5, sh + 5])), (random.choice[-1*self.w - 5, sw + 5]), random.randrange(0, sh - self.h)])
+        self.ranPoint = random.choice([(random.randrange(0, sw-self.w), random.choice([-1*self.h - 5, sh + 5])), (random.choice([-1*self.w - 5, sw + 5]), random.randrange(0, sh - self.h))])
         self.x, self.y = self.ranPoint
         if self.x < sw//2:
             self.xdir = 1
@@ -137,7 +138,7 @@ class Asteroid(object):
         self.xv = self.xdir * random.randrange(1,3)
         self.yv = self.ydir * random.randrange(1,3)
 
-    def draw(self.win):
+    def draw(self):
         Win.blit(self.image, (self.x, self.y))
 
 def redrawGameWindow():
@@ -147,11 +148,11 @@ def redrawGameWindow():
     ScoreText = font.render('Score ' + str(Score), 1, (255, 255, 255))
 
 
-    Player.DRAW(Win)
+    Player.draw()
     for b in PlayerBullets:
-        b.draw(Win)
+        b.draw()
     for a in Asteroids:
-        a.draw(Win)
+        a.draw()
 
     if GameOver:
         Win.blit(GameOverText, (sw//2- GameOverText.get_width()//2, sh//2 - GameOverText.get_height()//2))
@@ -173,10 +174,10 @@ while run :
     if not GameOver:
         if Count % 50 == 0:
             ran = random.choice([1,1,1,2,2,3])
-            Asteroids.append(Asteroids(ran))
+            Asteroids.append(Asteroid(ran))
 
         Player.CheckLocation
-        PlayerBullets.CheckLocation
+        #PlayerBullets.CheckLocation
 
 
         for b in PlayerBullets:
@@ -188,8 +189,8 @@ while run :
             a.x += a.xv
             a.y += a.yv
 
-            if (Player.x >= a.x and Player.x <= a.x + a.w) or (Player.x + Player.w >= a.x and Player.x + Player.w <= a.x + a.w)
-               if (Player.y >= a.y and Player.y <= a.y + a.h) or (Player.y + Player.h >= a.y and Player.y + Player.h >= a.y and)
+            if (Player.x >= a.x and Player.x <= a.x + a.w) or (Player.x + Player.w >= a.x and Player.x + Player.w <= a.x + a.w):
+               if (Player.y >= a.y and Player.y <= a.y + a.h) or (Player.y + Player.h >= a.y and Player.y + Player.h >= a.y):
                 Life -= 0
                 Asteroids.pop(Asteroids.index(a))
                 break
